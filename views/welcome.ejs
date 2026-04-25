@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome - StreamKit</title>
+  <link rel="icon" href="/images/logo.png?v=1777120288" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    :root {
+      --primary:#7C3AED;--primary-hover:#6D28D9;
+      --primary-light:rgba(124,58,237,0.12);--primary-glow:rgba(124,58,237,0.3);
+      --cyan:#06B6D4;
+      --bg-base:#0B0F1A;--bg-surface:#0F172A;--bg-elevated:#141B2D;
+      --bg-card:#1A2035;--bg-hover:#1E2640;
+      --border:rgba(255,255,255,0.06);--border-active:rgba(124,58,237,0.5);
+      --text-primary:#F1F5F9;--text-secondary:#94A3B8;--text-muted:#475569;
+      --shadow-lg:0 8px 32px rgba(0,0,0,0.6);
+    }
+    html,body{background:#0B0F1A!important;color:#F1F5F9!important;font-family:'Inter',system-ui,sans-serif!important;-webkit-font-smoothing:antialiased;}
+
+    .donators-container{overflow:hidden;mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);}
+    .donators-track{display:flex;gap:1rem;}
+    .donators-track.animate{animation:scroll var(--scroll-duration,20s) linear infinite;}
+    @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(var(--scroll-distance,-50%))}}
+    .donator-item{display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0;padding:2px 0;}
+    .donator-avatar{width:18px;height:18px;border-radius:50%;object-fit:cover;}
+    .donator-initial{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:#fff;}
+
+    @keyframes countRing{from{stroke-dashoffset:163}to{stroke-dashoffset:0}}
+    #countdown-circle{animation:countRing 15s linear forwards;}
+  </style>
+</head>
+<body>
+  <!-- Background -->
+  <div style="position:fixed;inset:0;pointer-events:none;overflow:hidden;" aria-hidden="true">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(124,58,237,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,0.04) 1px,transparent 1px);background-size:40px 40px;"></div>
+    <div style="position:absolute;top:-150px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(124,58,237,0.1) 0%,transparent 70%);"></div>
+    <div style="position:absolute;bottom:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(ellipse,rgba(6,182,212,0.06) 0%,transparent 70%);"></div>
+  </div>
+
+  <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 16px;" class="fade-in">
+
+    <!-- Logo + Heading -->
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="width:64px;height:64px;background:var(--primary-light);border:1px solid var(--border-active);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 0 32px var(--primary-glow);">
+        <img src="/images/logo.png?v=1777120288" alt="StreamKit" style="width:44px;height:44px;border-radius:12px;object-fit:cover;">
+      </div>
+      <h1 style="font-size:1.8rem;font-weight:800;letter-spacing:-0.04em;color:var(--text-primary);margin:0 0 8px;">
+        Welcome to <span style="color:var(--primary);">StreamKit</span> 🎉
+      </h1>
+      <p style="font-size:0.875rem;color:var(--text-muted);margin:0;">Your streaming dashboard is ready. Let's go!</p>
+    </div>
+
+    <!-- Card -->
+    <div class="auth-card" style="width:100%;max-width:420px;padding:24px;">
+
+      <div style="text-align:center;margin-bottom:20px;">
+        <p style="font-size:0.825rem;color:var(--text-secondary);margin:0 0 4px;">Thanks for using StreamKit! 🙌</p>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">Your streaming control center is fully configured.</p>
+      </div>
+
+      <div style="padding-top:16px;border-top:1px solid var(--border);text-align:center;">
+        <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Your streaming control center is fully configured and ready to use.</p>
+      </div>
+
+      <!-- Countdown + CTA -->
+      <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:16px;">
+        <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+          <div style="position:relative;width:40px;height:40px;">
+            <svg width="40" height="40" style="transform:rotate(-90deg);">
+              <circle cx="20" cy="20" r="16" fill="none" stroke="var(--bg-hover)" stroke-width="3"/>
+              <circle id="countdown-circle" cx="20" cy="20" r="16" fill="none" stroke="var(--primary)" stroke-width="3"
+                stroke-dasharray="163" stroke-dashoffset="163" stroke-linecap="round"/>
+            </svg>
+            <span id="countdown" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--text-primary);">15</span>
+          </div>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;line-height:1.4;">
+            Redirecting<br>in <span id="countdown-text">15</span>s
+          </p>
+        </div>
+
+        <a href="/welcome/continue" class="btn btn-primary" style="flex:1;justify-content:center;padding:0.65rem 1rem;font-size:0.875rem;font-weight:600;border-radius:10px;text-decoration:none;">
+          Go to Dashboard
+          <i class="ti ti-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <p style="font-size:0.7rem;color:var(--text-muted);margin-top:20px;">StreamKit &mdash; Streaming Control Center</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.ti').forEach(el => el.classList.add('font-loaded'));
+
+      // Confetti with brand colors
+      confetti({ particleCount:60, angle:60, spread:55, origin:{x:0}, colors:['#7C3AED','#9333EA','#06B6D4'] });
+      confetti({ particleCount:60, angle:120, spread:55, origin:{x:1}, colors:['#7C3AED','#ec4899','#22c55e'] });
+
+      // Countdown
+      let count = 15;
+      const countEl = document.getElementById('countdown');
+      const countTxtEl = document.getElementById('countdown-text');
+      const interval = setInterval(() => {
+        count--;
+        if(countEl) countEl.textContent = count;
+        if(countTxtEl) countTxtEl.textContent = count;
+        if(count <= 0) { clearInterval(interval); window.location.href = '/welcome/continue'; }
+      }, 1000);
+
+      loadDonators();
+    });
+  </script>
+</body>
+</html>

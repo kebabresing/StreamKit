@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - StreamKit</title>
+  <link rel="icon" href="/images/logo.png" type="image/png">
+  <link rel="alternate icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css">
+  <link rel="stylesheet" href="/css/styles.css?v=6391264614">
+  <style>
+    :root {
+      --primary:#6366f1;--primary-light:rgba(99,102,241,0.12);--primary-glow:rgba(99,102,241,0.25);
+      --bg-base:#0a0a0f;--bg-card:#1c1c26;--border:rgba(255,255,255,0.07);
+      --text-primary:#f0f0f8;--text-muted:#5a5a72;--shadow-lg:0 8px 32px rgba(0,0,0,0.5);
+    }
+    html,body { background:#0a0a0f !important; color:#f0f0f8 !important; font-family:'Inter',system-ui,sans-serif !important; -webkit-font-smoothing:antialiased; }
+  </style>
+</head>
+<body>
+  <!-- Background grid -->
+  <div style="position:fixed;inset:0;pointer-events:none;" aria-hidden="true">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(99,102,241,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.03) 1px,transparent 1px);background-size:40px 40px;"></div>
+  </div>
+
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;" class="fade-in">
+    <div style="width:100%;max-width:400px;text-align:center;">
+
+      <!-- Logo -->
+      <div style="width:56px;height:56px;background:var(--primary-light);border:1px solid rgba(99,102,241,0.25);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 0 24px var(--primary-glow);">
+        <img src="/images/logo.png" alt="StreamKit" style="width:32px;height:32px;">
+      </div>
+
+      <!-- Error Icon -->
+      <div style="width:72px;height:72px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+        <i class="ti ti-alert-triangle" style="font-size:2rem;color:#f87171;"></i>
+      </div>
+
+      <!-- Error title & message -->
+      <h1 style="font-size:1.4rem;font-weight:800;letter-spacing:-0.03em;color:var(--text-primary);margin:0 0 8px;"><%= title %></h1>
+      <p style="font-size:0.875rem;color:var(--text-muted);margin:0 0 28px;line-height:1.6;"><%= error %></p>
+
+      <!-- Actions -->
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <a href="/" class="btn btn-primary" style="padding:0.6rem 1.4rem;font-size:0.875rem;font-weight:600;border-radius:10px;text-decoration:none;">
+          <i class="ti ti-home"></i>
+          Back to Home
+        </a>
+        <button onclick="history.back()" class="btn btn-ghost" style="padding:0.6rem 1.4rem;font-size:0.875rem;font-weight:600;border-radius:10px;">
+          <i class="ti ti-arrow-left"></i>
+          Go Back
+        </button>
+      </div>
+
+      <p style="font-size:0.7rem;color:var(--text-muted);margin-top:32px;">StreamKit — Streaming Control Center</p>
+    </div>
+  </div>
+
+  <script>document.querySelectorAll('.ti').forEach(el => el.classList.add('font-loaded'));</script>
+</body>
+</html>

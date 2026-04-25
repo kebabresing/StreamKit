@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Setup - StreamKit</title>
+  <meta name="description" content="Set up your StreamKit admin account.">
+  <link rel="icon" href="/images/logo.png?v=1777120288" type="image/png">
+  <link rel="alternate icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css">
+  <link rel="stylesheet" href="/css/styles.css?v=6391264614">
+  <script>
+    tailwind.config = {
+      theme: {
+        fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        extend: {
+          colors: {
+            primary: '#6366f1', secondary: '#4f46e5',
+            dark: { 900:'#0a0a0f',800:'#111118',700:'#18181f',600:'#1c1c26',500:'#22222e',400:'#9090a8' },
+            gray: { 900:'#0a0a0f',800:'#111118',700:'#18181f',600:'#1c1c26',500:'#5a5a72',400:'#9090a8',300:'#b0b0c8' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --primary:#6366f1;--primary-hover:#4f46e5;
+      --primary-light:rgba(99,102,241,0.12);--primary-glow:rgba(99,102,241,0.25);
+      --bg-base:#0a0a0f;--bg-surface:#111118;--bg-elevated:#18181f;
+      --bg-card:#1c1c26;--bg-hover:#22222e;
+      --border:rgba(255,255,255,0.07);--border-active:rgba(99,102,241,0.5);
+      --text-primary:#f0f0f8;--text-secondary:#9090a8;--text-muted:#5a5a72;
+      --radius-lg:14px;--radius-xl:20px;--shadow-lg:0 8px 32px rgba(0,0,0,0.5);
+    }
+    html,body { background:#0a0a0f !important; color:#f0f0f8 !important; font-family:'Inter',system-ui,sans-serif !important; -webkit-font-smoothing:antialiased; }
+    #strengthBarTrack { height:3px; background:var(--bg-hover); border-radius:99px; overflow:hidden; margin-top:8px; }
+    #strengthBar { height:100%; border-radius:99px; transition: width 0.4s cubic-bezier(0.4,0,0.2,1), background 0.3s; width:0; }
+  </style>
+</head>
+<body>
+  <!-- Background -->
+  <div style="position:fixed;inset:0;pointer-events:none;overflow:hidden;" aria-hidden="true">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(99,102,241,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.03) 1px,transparent 1px);background-size:40px 40px;"></div>
+    <div style="position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(99,102,241,0.14) 0%,transparent 70%);"></div>
+  </div>
+
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;" class="fade-in">
+    <div style="width:100%;max-width:460px;">
+
+      <!-- Logo + Brand -->
+      <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:28px;">
+        <div style="width:52px;height:52px;background:var(--primary-light);border:1px solid var(--border-active);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;box-shadow:0 0 20px var(--primary-glow);">
+          <img src="/images/logo.png?v=1777120288" alt="StreamKit" style="width:30px;height:30px;">
+        </div>
+        <h1 style="font-size:1.4rem;font-weight:800;letter-spacing:-0.03em;color:var(--text-primary);margin:0 0 4px;">StreamKit</h1>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">Your live streaming control center</p>
+      </div>
+
+      <!-- Card -->
+      <div class="auth-card" style="padding:28px;">
+
+        <!-- Step indicator -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;padding:10px 14px;background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.15);border-radius:10px;">
+          <div style="width:24px;height:24px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i class="ti ti-shield-check" style="font-size:0.75rem;color:#fff;"></i>
+          </div>
+          <div>
+            <p style="font-size:0.8rem;font-weight:600;color:var(--text-primary);margin:0;">Admin Account Setup</p>
+            <p style="font-size:0.7rem;color:var(--text-muted);margin:0;">First user gets admin privileges</p>
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-primary);margin:0 0 4px;">Complete your profile</h2>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">Set up your credentials to continue</p>
+        </div>
+
+        <!-- Error -->
+        <% if (typeof error !== 'undefined' && error) { %>
+        <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:12px 14px;margin-bottom:18px;font-size:0.825rem;color:#f87171;">
+          <i class="ti ti-alert-circle" style="flex-shrink:0;margin-top:1px;"></i>
+          <span><%= error %></span>
+        </div>
+        <% } %>
+
+        <form id="setupForm" action="/setup-account" method="post" enctype="multipart/form-data" style="display:flex;flex-direction:column;gap:14px;">
+          <input type="hidden" name="user_role" value="admin">
+          <input type="hidden" name="status" value="active">
+
+          <!-- Avatar -->
+          <div style="display:flex;flex-direction:column;align-items:center;padding:4px 0 8px;">
+            <div style="position:relative;">
+              <div id="avatar-preview" style="width:80px;height:80px;border-radius:50%;background:var(--bg-elevated);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border)'">
+                <i class="ti ti-user" style="font-size:2rem;color:var(--text-muted);"></i>
+              </div>
+              <label for="avatar-upload" style="position:absolute;bottom:0;right:0;width:26px;height:26px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--bg-card);">
+                <i class="ti ti-camera" style="font-size:0.7rem;color:#fff;"></i>
+              </label>
+              <input id="avatar-upload" name="avatar" type="file" accept="image/*" style="display:none;" onchange="previewAvatar(event)">
+            </div>
+            <p style="font-size:0.7rem;color:var(--text-muted);margin-top:8px;">Profile photo <span style="font-size:0.65rem;">(optional)</span></p>
+          </div>
+
+          <!-- Username -->
+          <div>
+            <label for="username" style="display:block;font-size:0.8rem;font-weight:500;color:var(--text-secondary);margin-bottom:6px;">Username</label>
+            <div style="position:relative;">
+              <i class="ti ti-user" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:0.9rem;pointer-events:none;"></i>
+              <input type="text" id="username" name="username" class="input" style="padding-left:36px;" placeholder="Choose your admin username" autocomplete="username" required>
+            </div>
+            <p id="username-error" style="display:none;font-size:0.7rem;color:#f87171;margin-top:4px;"></p>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label for="password" style="display:block;font-size:0.8rem;font-weight:500;color:var(--text-secondary);margin-bottom:6px;">Password</label>
+            <div style="position:relative;">
+              <i class="ti ti-lock" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:0.9rem;pointer-events:none;"></i>
+              <input type="password" id="password" name="password" class="input" style="padding-left:36px;padding-right:40px;" placeholder="Create a strong password" autocomplete="new-password" required>
+              <button type="button" onclick="toggleVis('password','t1')" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-muted);padding:4px;transition:color 0.15s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
+                <i class="ti ti-eye" id="t1" style="font-size:0.9rem;"></i>
+              </button>
+            </div>
+            <div id="strengthBarTrack"><div id="strengthBar"></div></div>
+            <p id="strengthText" style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;">Use 8+ characters with letters, numbers &amp; symbols</p>
+          </div>
+
+          <!-- Confirm Password -->
+          <div>
+            <label for="confirm-password" style="display:block;font-size:0.8rem;font-weight:500;color:var(--text-secondary);margin-bottom:6px;">Confirm Password</label>
+            <div style="position:relative;">
+              <i class="ti ti-lock-check" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:0.9rem;pointer-events:none;"></i>
+              <input type="password" id="confirm-password" name="confirmPassword" class="input" style="padding-left:36px;padding-right:40px;" placeholder="Confirm your password" autocomplete="new-password" required>
+              <button type="button" onclick="toggleVis('confirm-password','t2')" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-muted);padding:4px;transition:color 0.15s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
+                <i class="ti ti-eye" id="t2" style="font-size:0.9rem;"></i>
+              </button>
+            </div>
+            <p id="password-match" style="display:none;font-size:0.7rem;color:#4ade80;margin-top:4px;"><i class="ti ti-check"></i> Passwords match</p>
+            <p id="password-mismatch" style="display:none;font-size:0.7rem;color:#f87171;margin-top:4px;"><i class="ti ti-x"></i> Passwords don't match</p>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" id="submitBtn" class="btn btn-primary" style="width:100%;padding:0.7rem;font-size:0.875rem;font-weight:600;border-radius:10px;margin-top:4px;">
+            <i class="ti ti-rocket"></i>
+            Complete Setup
+          </button>
+        </form>
+      </div>
+
+      <div style="text-align:center;margin-top:16px;">
+        <span style="font-size:0.7rem;color:var(--text-muted);">StreamKit — Streaming Control Center</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.ti').forEach(el => el.classList.add('font-loaded'));
+      document.getElementById('username').focus();
+    });
+
+    function previewAvatar(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const p = document.getElementById('avatar-preview');
+        p.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;">`;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function toggleVis(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('ti-eye', 'ti-eye-off');
+      } else {
+        input.type = 'password';
+        icon.classList.replace('ti-eye-off', 'ti-eye');
+      }
+    }
+
+    document.getElementById('password').addEventListener('input', function() {
+      const pw = this.value;
+      const bar = document.getElementById('strengthBar');
+      const txt = document.getElementById('strengthText');
+      if (!pw) { bar.style.width='0'; txt.textContent='Use 8+ characters with letters, numbers & symbols'; txt.style.color='var(--text-muted)'; return; }
+      let score = 0;
+      if (pw.length >= 8) score++;
+      if (pw.length >= 12) score++;
+      if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) score++;
+      if (/[0-9]/.test(pw)) score++;
+      if (/[^a-zA-Z0-9]/.test(pw)) score++;
+      const pct = Math.round((score / 5) * 100);
+      bar.style.width = pct + '%';
+      const levels = [{max:20,color:'#ef4444',label:'Too weak'},{max:40,color:'#f59e0b',label:'Weak'},{max:60,color:'#eab308',label:'Fair'},{max:80,color:'#22c55e',label:'Good'},{max:101,color:'#4ade80',label:'Strong 💪'}];
+      const l = levels.find(x => pct <= x.max);
+      bar.style.background = l.color;
+      txt.textContent = l.label;
+      txt.style.color = l.color;
+    });
+
+    document.getElementById('confirm-password').addEventListener('input', function() {
+      const pw = document.getElementById('password').value;
+      const cp = this.value;
+      document.getElementById('password-match').style.display = (cp && pw === cp) ? 'block' : 'none';
+      document.getElementById('password-mismatch').style.display = (cp && pw !== cp) ? 'block' : 'none';
+    });
+
+    document.getElementById('setupForm').addEventListener('submit', function(e) {
+      const pw = document.getElementById('password').value;
+      const cp = document.getElementById('confirm-password').value;
+      if (pw !== cp) {
+        e.preventDefault();
+        document.getElementById('password-mismatch').style.display = 'block';
+        document.getElementById('password-match').style.display = 'none';
+        return;
+      }
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ti ti-loader animate-spin"></i> Setting up...';
+    });
+  </script>
+</body>
+</html>

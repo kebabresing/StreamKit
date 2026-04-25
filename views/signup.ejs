@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account - StreamKit</title>
+  <meta name="description" content="Create your StreamKit account and start streaming.">
+  <link rel="icon" href="/images/logo.png?v=1777120288" type="image/png">
+  <link rel="alternate icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css">
+  <link rel="stylesheet" href="/css/styles.css?v=6391264614">
+  <% if (typeof recaptchaSiteKey !== 'undefined' && recaptchaSiteKey) { %>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <% } %>
+  <script>
+    tailwind.config = {
+      theme: {
+        fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        extend: {
+          colors: {
+            primary: '#6366f1', secondary: '#4f46e5',
+            dark: { 900:'#0a0a0f',800:'#111118',700:'#18181f',600:'#1c1c26',500:'#22222e',400:'#9090a8' },
+            gray: { 900:'#0a0a0f',800:'#111118',700:'#18181f',600:'#1c1c26',500:'#5a5a72',400:'#9090a8',300:'#b0b0c8',200:'#d0d0e0',100:'#f0f0f8' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --primary:#6366f1;--primary-hover:#4f46e5;
+      --primary-light:rgba(99,102,241,0.12);--primary-glow:rgba(99,102,241,0.25);
+      --bg-base:#0a0a0f;--bg-surface:#111118;--bg-elevated:#18181f;
+      --bg-card:#1c1c26;--bg-hover:#22222e;
+      --border:rgba(255,255,255,0.07);--border-active:rgba(99,102,241,0.5);
+      --text-primary:#f0f0f8;--text-secondary:#9090a8;--text-muted:#5a5a72;
+      --radius-lg:14px;--radius-xl:20px;
+      --shadow-lg:0 8px 32px rgba(0,0,0,0.5);
+    }
+    html,body { background:#0a0a0f !important; color:#f0f0f8 !important; font-family:'Inter',system-ui,sans-serif !important; -webkit-font-smoothing:antialiased; }
+    /* Avatar ring */
+    #avatar-preview { transition: border-color 0.2s; }
+    #avatar-preview:hover { border-color: var(--primary) !important; }
+    /* Strength bar */
+    #strengthBarTrack { height:3px; background:var(--bg-hover); border-radius:99px; overflow:hidden; margin-top:8px; }
+    #strengthBar { height:100%; border-radius:99px; transition: width 0.4s cubic-bezier(0.4,0,0.2,1), background 0.3s; width:0; }
+  </style>
+</head>
+<body>
+  <!-- Background decoration -->
+  <div style="position:fixed;inset:0;pointer-events:none;overflow:hidden;" aria-hidden="true">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(99,102,241,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.03) 1px,transparent 1px);background-size:40px 40px;"></div>
+    <div style="position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(99,102,241,0.12) 0%,transparent 70%);"></div>
+  </div>
+
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;" class="fade-in">
+    <div style="width:100%;max-width:460px;">
+
+      <!-- Logo + Brand -->
+      <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:28px;">
+        <div style="width:52px;height:52px;background:var(--primary-light);border:1px solid var(--border-active);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;box-shadow:0 0 20px var(--primary-glow);">
+          <img src="/images/logo.png?v=1777120288" alt="StreamKit" style="width:30px;height:30px;">
+        </div>
+        <h1 style="font-size:1.4rem;font-weight:800;letter-spacing:-0.03em;color:var(--text-primary);margin:0 0 4px;">StreamKit</h1>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">Your live streaming control center</p>
+      </div>
+
+      <!-- Card -->
+      <div class="auth-card" style="padding:28px 28px;">
+
+        <div style="margin-bottom:20px;">
+          <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-primary);margin:0 0 4px;">Create your account</h2>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">Start streaming in minutes</p>
+        </div>
+
+        <!-- Error Alert -->
+        <% if (typeof error !== 'undefined' && error) { %>
+        <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:12px 14px;margin-bottom:18px;font-size:0.825rem;color:#f87171;">
+          <i class="ti ti-alert-circle" style="flex-shrink:0;margin-top:1px;"></i>
+          <span><%= error %></span>
+        </div>
+        <% } %>
+
+        <% if (typeof success !== 'undefined' && success) { %>
+        <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:10px;padding:12px 14px;margin-bottom:18px;font-size:0.825rem;color:#4ade80;">
+          <i class="ti ti-check-circle" style="flex-shrink:0;margin-top:1px;"></i>
+          <span><%= success %></span>
+        </div>
+        <% } %>
+
+        <form id="signupForm" action="/signup" method="post" enctype="multipart/form-data" style="display:flex;flex-direction:column;gap:14px;">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="user_role" value="member">
+
+          <!-- Avatar upload -->
+          <div style="display:flex;flex-direction:column;align-items:center;padding:4px 0 8px;">
+            <div style="position:relative;">
+              <div id="avatar-preview" style="width:80px;height:80px;border-radius:50%;background:var(--bg-elevated);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;">
+                <i class="ti ti-user" style="font-size:2rem;color:var(--text-muted);"></i>
+              </div>
+              <label for="avatar-upload" style="position:absolute;bottom:0;right:0;width:26px;height:26px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--bg-card);transition:background 0.15s;">
+                <i class="ti ti-camera" style="font-size:0.7rem;color:#fff;"></i>
+              </label>
+              <input id="avatar-upload" name="avatar" type="file" accept="image/*" style="display:none;" onchange="previewAvatar(event)">
+            </div>
+            <p style="font-size:0.7rem;color:var(--text-muted);margin-top:8px;">Click to upload photo <span style="color:var(--text-muted);font-size:0.65rem;">(optional)</span></p>
+          </div>
+
+          <!-- Username -->
+          <div>
+            <label for="username" style="display:block;font-size:0.8rem;font-weight:500;color:var(--text-secondary);margin-bottom:6px;">Username</label>
+            <div style="position:relative;">
+              <i class="ti ti-user" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:0.9rem;pointer-events:none;"></i>
+              <input type="text" id="username" name="username" class="input" style="padding-left:36px;" placeholder="Choose a username" autocomplete="username" required>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label for="password" style="display:block;font-size:0.8rem;font-weight:500;color:var(--text-secondary);margin-bottom:6px;">Password</label>
+            <div style="position:relative;">
+              <i class="ti ti-lock" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:0.9rem;pointer-events:none;"></i>
+              <input type="password" id="password" name="password" class="input" style="padding-left:36px;padding-right:40px;" placeholder="Create a password" autocomplete="new-password" minlength="6" required onkeyup="checkPasswordStrength()">
+              <button type="button" onclick="toggleVis('password','t1')" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-muted);padding:4px;transition:color 0.15s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
+                <i class="ti ti-eye" id="t1" style="font-size:0.9rem;"></i>
+              </button>
+            </div>
+            <!-- Strength bar -->
+            <div id="strengthBarTrack"><div id="strengthBar"></div></div>
+            <p id="strengthText" style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;">At least 6 characters</p>
+          </div>
+
+          <!-- Confirm Password -->
+          <div>
+            <label for="confirmPassword" style="display:block;font-size:0.8rem;font-weight:500;color:var(--text-secondary);margin-bottom:6px;">Confirm Password</label>
+            <div style="position:relative;">
+              <i class="ti ti-lock-check" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:0.9rem;pointer-events:none;"></i>
+              <input type="password" id="confirmPassword" name="confirmPassword" class="input" style="padding-left:36px;padding-right:40px;" placeholder="Repeat your password" autocomplete="new-password" required onkeyup="checkPasswordMatch()">
+              <button type="button" onclick="toggleVis('confirmPassword','t2')" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-muted);padding:4px;transition:color 0.15s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
+                <i class="ti ti-eye" id="t2" style="font-size:0.9rem;"></i>
+              </button>
+            </div>
+            <p id="matchMsg" style="font-size:0.7rem;margin-top:4px;display:none;"></p>
+          </div>
+
+          <!-- reCAPTCHA -->
+          <% if (typeof recaptchaSiteKey !== 'undefined' && recaptchaSiteKey) { %>
+          <div><div class="g-recaptcha" data-sitekey="<%= recaptchaSiteKey %>" data-theme="dark"></div></div>
+          <% } %>
+
+          <!-- Submit -->
+          <button type="submit" id="submitBtn" class="btn btn-primary" style="width:100%;padding:0.7rem;font-size:0.875rem;font-weight:600;border-radius:10px;margin-top:4px;">
+            <i class="ti ti-user-plus"></i>
+            Create Account
+          </button>
+        </form>
+
+        <!-- Footer link -->
+        <div style="text-align:center;margin-top:18px;padding-top:18px;border-top:1px solid var(--border);">
+          <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+            Already have an account?
+            <a href="/login" style="color:var(--primary);font-weight:500;text-decoration:none;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Sign in</a>
+          </p>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:16px;">
+        <span style="font-size:0.7rem;color:var(--text-muted);">StreamKit — Streaming Control Center</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.ti').forEach(el => el.classList.add('font-loaded'));
+    });
+
+    function previewAvatar(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const p = document.getElementById('avatar-preview');
+        p.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;">`;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function toggleVis(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('ti-eye', 'ti-eye-off');
+      } else {
+        input.type = 'password';
+        icon.classList.replace('ti-eye-off', 'ti-eye');
+      }
+    }
+
+    function checkPasswordStrength() {
+      const pw = document.getElementById('password').value;
+      const bar = document.getElementById('strengthBar');
+      const txt = document.getElementById('strengthText');
+      if (!pw) { bar.style.width='0'; txt.textContent='At least 6 characters'; txt.style.color='var(--text-muted)'; return; }
+      let score = 0;
+      if (pw.length >= 6) score++;
+      if (pw.length >= 10) score++;
+      if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) score++;
+      if (/[0-9]/.test(pw)) score++;
+      if (/[^a-zA-Z0-9]/.test(pw)) score++;
+      const pct = Math.round((score / 5) * 100);
+      bar.style.width = pct + '%';
+      const levels = [
+        { max:20, color:'#ef4444', label:'Too weak' },
+        { max:40, color:'#f59e0b', label:'Weak' },
+        { max:60, color:'#eab308', label:'Fair' },
+        { max:80, color:'#22c55e', label:'Good' },
+        { max:101, color:'#4ade80', label:'Strong 💪' }
+      ];
+      const l = levels.find(x => pct <= x.max);
+      bar.style.background = l.color;
+      txt.textContent = l.label;
+      txt.style.color = l.color;
+    }
+
+    function checkPasswordMatch() {
+      const pw = document.getElementById('password').value;
+      const cp = document.getElementById('confirmPassword').value;
+      const msg = document.getElementById('matchMsg');
+      const btn = document.getElementById('submitBtn');
+      if (!cp) { msg.style.display='none'; btn.disabled=false; return; }
+      msg.style.display = 'block';
+      if (pw === cp) {
+        msg.textContent = '✓ Passwords match';
+        msg.style.color = '#4ade80';
+        btn.disabled = false;
+      } else {
+        msg.textContent = '✗ Passwords do not match';
+        msg.style.color = '#f87171';
+        btn.disabled = true;
+      }
+    }
+
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      const pw = document.getElementById('password').value;
+      const cp = document.getElementById('confirmPassword').value;
+      if (pw !== cp) { e.preventDefault(); checkPasswordMatch(); return; }
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ti ti-loader animate-spin"></i> Creating account...';
+    });
+  </script>
+</body>
+</html>

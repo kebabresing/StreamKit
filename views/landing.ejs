@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamKit — Live Streaming Control Center</title>
+  <meta name="description" content="StreamKit is the ultimate live streaming platform. Manage, schedule, and broadcast to YouTube, TikTok, Twitch, and more from one dashboard.">
+  <link rel="icon" href="/images/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css">
+  <link rel="stylesheet" href="/css/streamkit-ui.css">
+  <style>
+    body { background: #0B0F1A; color: #F1F5F9; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+    /* NAV */
+    .nav-link { font-size:.875rem; font-weight:500; color:#94A3B8; text-decoration:none; transition:color .2s; }
+    .nav-link:hover { color:#F1F5F9; }
+
+    /* HERO */
+    .hero-visual {
+      width:100%; max-width:780px; margin:4rem auto 0;
+      background:rgba(15,21,37,.7); border:1px solid rgba(139,92,246,.25);
+      border-radius:20px; backdrop-filter:blur(20px);
+      box-shadow:0 0 80px rgba(139,92,246,.15), 0 40px 100px rgba(0,0,0,.5);
+      overflow:hidden;
+    }
+    .hero-visual-bar {
+      display:flex; align-items:center; gap:8px;
+      padding:.75rem 1rem; border-bottom:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.02);
+    }
+    .dot { width:10px; height:10px; border-radius:50%; }
+
+    /* STREAM ROW */
+    .stream-row {
+      display:flex; align-items:center; gap:12px;
+      padding:.75rem 1rem; border-bottom:1px solid rgba(255,255,255,.04);
+      transition:background .2s;
+    }
+    .stream-row:hover { background:rgba(255,255,255,.02); }
+    .stream-thumb { width:48px; height:30px; border-radius:4px; background:linear-gradient(135deg,#1e3a5f,#312e81); flex-shrink:0; }
+
+    /* FEATURES GRID */
+    .features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; }
+
+    /* STATS STRIP */
+    .stats-strip { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.05); border-radius:16px; overflow:hidden; }
+    .stat-cell { padding:1.75rem 1.5rem; background:#0B0F1A; text-align:center; }
+
+    /* PLATFORMS */
+    .platform-pill {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:.5rem 1rem; border-radius:999px;
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07);
+      font-size:.82rem; font-weight:500; color:#94A3B8;
+      transition:all .2s;
+    }
+    .platform-pill:hover { background:rgba(139,92,246,.08); border-color:rgba(139,92,246,.25); color:#F1F5F9; }
+
+    /* CTA SECTION */
+    .cta-section {
+      position:relative; text-align:center; padding:6rem 1.5rem;
+      background:radial-gradient(ellipse at 50% 0%, rgba(139,92,246,.12) 0%, transparent 65%);
+    }
+
+    /* FOOTER */
+    .footer { border-top:1px solid rgba(255,255,255,.05); padding:2rem 1.5rem; text-align:center; }
+
+    /* SECTION LABEL */
+    .section-label {
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+      color:#a78bfa; margin-bottom:.75rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Background ──────────────────────────────────── -->
+<div class="sk-grid-bg"></div>
+<div style="position:fixed;inset:0;pointer-events:none;z-index:0;">
+  <div class="sk-orb sk-orb-purple" style="width:600px;height:600px;top:-200px;left:50%;transform:translateX(-60%);"></div>
+  <div class="sk-orb sk-orb-blue"   style="width:400px;height:400px;top:30%;right:-100px;"></div>
+  <div class="sk-orb sk-orb-cyan"   style="width:300px;height:300px;bottom:5%;left:5%;"></div>
+</div>
+
+<!-- ── Navbar ───────────────────────────────────────── -->
+<nav class="sk-navbar" style="position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;padding:0 2rem;background:rgba(11,15,26,.75);border-bottom:1px solid rgba(255,255,255,.05);backdrop-filter:blur(24px);gap:2rem;">
+  <div style="display:flex;align-items:center;gap:10px;flex:1;">
+    <div style="width:34px;height:34px;border-radius:9px;overflow:hidden;box-shadow:0 0 14px rgba(139,92,246,.45);flex-shrink:0;">
+      <img src="/images/logo.png" alt="StreamKit" style="width:100%;height:100%;object-fit:cover;border-radius:9px;">
+    </div>
+    <span style="font-size:1rem;font-weight:800;letter-spacing:-.03em;">StreamKit</span>
+  </div>
+  <div style="display:flex;gap:1.5rem;">
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#platforms" class="nav-link">Platforms</a>
+    <a href="#stats" class="nav-link">Stats</a>
+  </div>
+  <div style="display:flex;gap:.75rem;flex:1;justify-content:flex-end;">
+    <a href="/login" class="sk-btn sk-btn-ghost sk-btn-sm">Sign In</a>
+    <a href="/signup" class="sk-btn sk-btn-primary sk-btn-sm">Get Started</a>
+  </div>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────── -->
+<section class="sk-hero" style="position:relative;z-index:1;padding-top:9rem;">
+  <div style="max-width:900px;margin:0 auto;">
+
+    <div style="display:flex;justify-content:center;margin-bottom:1.5rem;" class="sk-fade-up">
+      <div class="sk-hero-eyebrow">
+        <div class="sk-live-dot"></div>
+        Now live — Next-gen streaming platform
+      </div>
+    </div>
+
+    <h1 class="sk-hero-title sk-fade-up sk-delay-1">
+      Stream Anywhere,<br>
+      <span class="sk-gradient-text">Control Everything</span>
+    </h1>
+
+    <p class="sk-hero-sub sk-fade-up sk-delay-2">
+      StreamKit gives you a unified dashboard to schedule, manage, and broadcast live streams to every major platform — all from one place.
+    </p>
+
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;" class="sk-fade-up sk-delay-3">
+      <a href="/signup" class="sk-btn sk-btn-primary sk-btn-lg">
+        <i class="ti ti-rocket"></i> Start Streaming Free
+      </a>
+      <a href="/login" class="sk-btn sk-btn-ghost sk-btn-lg">
+        <i class="ti ti-login"></i> Sign In
+      </a>
+    </div>
+
+    <!-- Hero visual / mock dashboard -->
+    <div class="hero-visual sk-fade-up sk-delay-4" style="position:relative;z-index:1;">
+      <div class="hero-visual-bar">
+        <div class="dot" style="background:#ef4444;"></div>
+        <div class="dot" style="background:#f59e0b;"></div>
+        <div class="dot" style="background:#22c55e;"></div>
+        <span style="font-size:.75rem;color:#475569;margin-left:6px;">StreamKit Dashboard — Live Control</span>
+        <div style="margin-left:auto;" class="sk-live-badge"><div class="sk-live-dot"></div> 3 LIVE</div>
+      </div>
+      <div style="padding:1rem;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.75rem;border-bottom:1px solid rgba(255,255,255,.05);">
+        <% [
+          {label:'Active Streams',val:'3',icon:'ti-broadcast',color:'#3B82F6'},
+          {label:'Total Viewers',val:'12.4K',icon:'ti-users',color:'#8B5CF6'},
+          {label:'Uptime',val:'99.8%',icon:'ti-activity',color:'#06B6D4'},
+          {label:'CPU Usage',val:'24%',icon:'ti-cpu',color:'#22c55e'}
+        ].forEach(s => { %>
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:.75rem;">
+          <div style="font-size:.65rem;color:#475569;margin-bottom:.35rem;"><%= s.label %></div>
+          <div style="font-size:1.25rem;font-weight:800;color:<%= s.color %>;"><%= s.val %></div>
+        </div>
+        <% }) %>
+      </div>
+      <div style="padding:.5rem 0;">
+        <% [
+          {name:'Gaming Marathon #12',platform:'YouTube',status:'live',viewers:'5.2K'},
+          {name:'Music Mix 2025',platform:'TikTok',status:'live',viewers:'4.1K'},
+          {name:'Tech Review Stream',platform:'Twitch',status:'live',viewers:'3.1K'},
+          {name:'Morning Broadcast',platform:'Facebook',status:'scheduled',viewers:'—'}
+        ].forEach(s => { %>
+        <div class="stream-row">
+          <div class="stream-thumb"></div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:.8rem;font-weight:600;color:#F1F5F9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= s.name %></div>
+            <div style="font-size:.7rem;color:#475569;"><%= s.platform %></div>
+          </div>
+          <div style="font-size:.7rem;font-weight:600;color:#64748B;text-align:right;">
+            <div><%= s.viewers %></div>
+            <% if(s.status==='live'){ %><div class="sk-live-badge" style="font-size:.6rem;padding:2px 7px;"><div class="sk-live-dot" style="width:5px;height:5px;"></div>LIVE</div><% } else { %><span style="color:#f59e0b;font-size:.65rem;">SCHEDULED</span><% } %>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats Strip ───────────────────────────────────── -->
+<section id="stats" style="position:relative;z-index:1;padding:4rem 1.5rem;max-width:1100px;margin:0 auto;">
+  <div class="stats-strip">
+    <% [
+      {val:'50K+',label:'Active Streamers'},
+      {val:'5',label:'Platforms Supported'},
+      {val:'99.9%',label:'Uptime SLA'},
+      {val:'24/7',label:'Support'}
+    ].forEach(s => { %>
+    <div class="stat-cell">
+      <div style="font-size:2rem;font-weight:900;background:linear-gradient(135deg,#3B82F6,#8B5CF6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"><%= s.val %></div>
+      <div style="font-size:.8rem;color:#64748B;margin-top:.25rem;"><%= s.label %></div>
+    </div>
+    <% }) %>
+  </div>
+</section>
+
+<!-- ── Features ──────────────────────────────────────── -->
+<section id="features" style="position:relative;z-index:1;padding:4rem 1.5rem;max-width:1100px;margin:0 auto;">
+  <div style="text-align:center;margin-bottom:3rem;">
+    <div class="section-label"><i class="ti ti-sparkles"></i> Features</div>
+    <h2 style="font-size:clamp(1.75rem,4vw,3rem);font-weight:900;letter-spacing:-.04em;margin-bottom:.75rem;">
+      Everything you need to <span class="sk-gradient-text">go live</span>
+    </h2>
+    <p style="color:#64748B;max-width:480px;margin:0 auto;font-size:.95rem;">
+      A complete toolkit built for creators, studios, and broadcasters of all sizes.
+    </p>
+  </div>
+
+  <div class="features-grid">
+    <% [
+      {icon:'ti-broadcast',color:'#3B82F6',bg:'rgba(59,130,246,.12)',title:'Multi-Platform Streaming',desc:'Push live streams to YouTube, TikTok, Twitch, Facebook, and Shopee simultaneously.'},
+      {icon:'ti-calendar-event',color:'#8B5CF6',bg:'rgba(139,92,246,.12)',title:'Smart Scheduling',desc:'Schedule streams in advance with automatic start/stop, timezone support, and countdowns.'},
+      {icon:'ti-chart-bar',color:'#06B6D4',bg:'rgba(6,182,212,.12)',title:'Real-time Analytics',desc:'Monitor viewer counts, CPU, memory, bandwidth, and stream health live on your dashboard.'},
+      {icon:'ti-bookmark',color:'#f59e0b',bg:'rgba(245,158,11,.12)',title:'Stream Presets',desc:'Save and reuse your RTMP configs, titles, and advanced settings with one click.'},
+      {icon:'ti-video',color:'#22c55e',bg:'rgba(34,197,94,.12)',title:'Video Library',desc:'Upload, organize, and preview your video library before scheduling any broadcast.'},
+      {icon:'ti-shield-check',color:'#a78bfa',bg:'rgba(167,139,250,.12)',title:'Secure & Reliable',desc:'Encrypted stream keys, CSRF protection, reCAPTCHA, and 99.9% uptime guarantee.'}
+    ].forEach(f => { %>
+    <div class="sk-feature-card">
+      <div class="sk-feature-icon" style="background:<%= f.bg %>;color:<%= f.color %>;"><i class="ti <%= f.icon %>"></i></div>
+      <h3 style="font-size:1rem;font-weight:700;margin-bottom:.5rem;"><%= f.title %></h3>
+      <p style="font-size:.875rem;color:#64748B;line-height:1.65;"><%= f.desc %></p>
+    </div>
+    <% }) %>
+  </div>
+</section>
+
+<!-- ── Platforms ─────────────────────────────────────── -->
+<section id="platforms" style="position:relative;z-index:1;padding:4rem 1.5rem;text-align:center;max-width:1100px;margin:0 auto;">
+  <div class="section-label"><i class="ti ti-plug"></i> Integrations</div>
+  <h2 style="font-size:clamp(1.5rem,3vw,2.5rem);font-weight:900;letter-spacing:-.03em;margin-bottom:2rem;">
+    Stream to every <span class="sk-gradient-text-cyan">major platform</span>
+  </h2>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;">
+    <% [
+      {icon:'ti-brand-youtube',label:'YouTube',color:'#ef4444'},
+      {icon:'ti-brand-tiktok',label:'TikTok',color:'#F1F5F9'},
+      {icon:'ti-brand-twitch',label:'Twitch',color:'#9146ff'},
+      {icon:'ti-brand-facebook',label:'Facebook',color:'#3b82f6'},
+      {icon:'ti-brand-shopee',label:'Shopee Live',color:'#f97316'},
+      {icon:'ti-dots',label:'Custom RTMP',color:'#94A3B8'}
+    ].forEach(p => { %>
+    <div class="platform-pill">
+      <i class="ti <%= p.icon %>" style="color:<%= p.color %>;font-size:1rem;"></i>
+      <%= p.label %>
+    </div>
+    <% }) %>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────────── -->
+<section class="cta-section" style="position:relative;z-index:1;">
+  <div style="max-width:600px;margin:0 auto;">
+    <div class="sk-live-badge" style="display:inline-flex;margin-bottom:1.5rem;"><div class="sk-live-dot"></div> Join 50,000+ streamers</div>
+    <h2 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:-.04em;margin-bottom:1rem;">
+      Ready to go <span class="sk-gradient-text">live?</span>
+    </h2>
+    <p style="color:#64748B;margin-bottom:2rem;font-size:1rem;">
+      Set up your first stream in minutes. No credit card required.
+    </p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="/signup" class="sk-btn sk-btn-primary sk-btn-lg">
+        <i class="ti ti-rocket"></i> Create Free Account
+      </a>
+      <a href="/login" class="sk-btn sk-btn-ghost sk-btn-lg">
+        <i class="ti ti-login"></i> Sign In
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────── -->
+<footer class="footer" style="position:relative;z-index:1;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:.5rem;">
+    <div style="width:26px;height:26px;border-radius:7px;overflow:hidden;box-shadow:0 0 10px rgba(139,92,246,.35);flex-shrink:0;">
+      <img src="/images/logo.png" alt="StreamKit" style="width:100%;height:100%;object-fit:cover;border-radius:7px;">
+    </div>
+    <span style="font-size:.875rem;font-weight:700;">StreamKit</span>
+  </div>
+  <p style="font-size:.75rem;color:#334155;">© 2026 StreamKit &mdash; Released under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener" style="color:#64748B;text-decoration:none;">MIT License</a> · <a href="/login" style="color:#64748B;text-decoration:none;">Login</a></p>
+</footer>
+
+<script>
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+  // Intersection observer for fade-up
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.style.opacity = '1'; });
+  }, {threshold: 0.1});
+  document.querySelectorAll('.sk-feature-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .5s ease, transform .5s ease';
+    io.observe(el);
+  });
+  const io2 = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }
+    });
+  }, {threshold:0.05});
+  document.querySelectorAll('.sk-feature-card').forEach(el => io2.observe(el));
+</script>
+</body>
+</html>

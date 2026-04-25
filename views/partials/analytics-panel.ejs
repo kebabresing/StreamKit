@@ -1,0 +1,198 @@
+<!-- ============================================================
+  StreamKit Dashboard Analytics Panel
+  Include in dashboard.ejs or layout.ejs as needed
+  ============================================================ -->
+
+<!-- ── Top Metric Cards ──────────────────────────────── -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;">
+
+  <!-- Active Streams -->
+  <div class="sk-stat-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;">
+      <span style="font-size:.75rem;font-weight:600;color:#64748B;letter-spacing:.04em;text-transform:uppercase;">Active Streams</span>
+      <div class="sk-stat-icon sk-stat-icon-red">
+        <i class="ti ti-broadcast"></i>
+      </div>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:.5rem;">
+      <span id="sk-active-streams" style="font-size:2rem;font-weight:900;line-height:1;">0</span>
+      <div class="sk-live-badge" id="sk-live-badge-wrap" style="display:none;">
+        <div class="sk-live-dot"></div> LIVE
+      </div>
+    </div>
+    <div style="font-size:.72rem;color:#475569;margin-top:.35rem;">of <span id="sk-total-streams">0</span> total streams</div>
+  </div>
+
+  <!-- CPU -->
+  <div class="sk-stat-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;">
+      <span style="font-size:.75rem;font-weight:600;color:#64748B;letter-spacing:.04em;text-transform:uppercase;">CPU Usage</span>
+      <div class="sk-stat-icon sk-stat-icon-blue">
+        <i class="ti ti-cpu"></i>
+      </div>
+    </div>
+    <div style="font-size:2rem;font-weight:900;line-height:1;">
+      <span id="sk-cpu">0</span><span style="font-size:1rem;color:#64748B;">%</span>
+    </div>
+    <div class="sk-progress" style="margin-top:.75rem;">
+      <div class="sk-progress-fill" id="sk-cpu-bar" style="width:0%;"></div>
+    </div>
+  </div>
+
+  <!-- Memory -->
+  <div class="sk-stat-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;">
+      <span style="font-size:.75rem;font-weight:600;color:#64748B;letter-spacing:.04em;text-transform:uppercase;">Memory</span>
+      <div class="sk-stat-icon sk-stat-icon-purple">
+        <i class="ti ti-device-sd-card"></i>
+      </div>
+    </div>
+    <div style="font-size:1.6rem;font-weight:900;line-height:1;">
+      <span id="sk-mem-used">0</span>
+      <span style="font-size:.85rem;color:#64748B;font-weight:500;"> / <span id="sk-mem-total">0</span></span>
+    </div>
+    <div class="sk-progress" style="margin-top:.75rem;">
+      <div class="sk-progress-fill" id="sk-mem-bar" style="width:0%;background:linear-gradient(90deg,#8B5CF6,#06B6D4);"></div>
+    </div>
+  </div>
+
+  <!-- Network -->
+  <div class="sk-stat-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;">
+      <span style="font-size:.75rem;font-weight:600;color:#64748B;letter-spacing:.04em;text-transform:uppercase;">Network</span>
+      <div class="sk-stat-icon sk-stat-icon-cyan">
+        <i class="ti ti-wifi"></i>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.3rem;">
+      <div style="display:flex;justify-content:space-between;font-size:.8rem;">
+        <span style="color:#64748B;">↑ Upload</span>
+        <span id="sk-upload" style="color:#60a5fa;font-weight:700;">0 Mbps</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:.8rem;">
+        <span style="color:#64748B;">↓ Download</span>
+        <span id="sk-download" style="color:#4ade80;font-weight:700;">0 Mbps</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── CPU History Chart ─────────────────────────────── -->
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+
+  <div class="sk-chart-container">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+      <div>
+        <div style="font-size:.85rem;font-weight:700;">System Performance</div>
+        <div style="font-size:.72rem;color:#475569;">Last 20 data points</div>
+      </div>
+      <div class="sk-badge sk-badge-blue"><i class="ti ti-activity"></i> Live</div>
+    </div>
+    <div class="sk-chart-bar-wrap" id="sk-cpu-chart">
+      <!-- bars injected by JS -->
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:.5rem;">
+      <span style="font-size:.65rem;color:#334155;">20s ago</span>
+      <span style="font-size:.65rem;color:#334155;">Now</span>
+    </div>
+  </div>
+
+  <!-- Quick Status Panel -->
+  <div class="sk-chart-container" style="display:flex;flex-direction:column;gap:.75rem;">
+    <div style="font-size:.85rem;font-weight:700;margin-bottom:.25rem;">System Status</div>
+
+    <% [
+      {label:'Stream Engine', status:'ok'},
+      {label:'RTMP Server',   status:'ok'},
+      {label:'Scheduler',     status:'ok'},
+      {label:'File Storage',  status:'ok'}
+    ].forEach(s => { %>
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-size:.8rem;color:#94A3B8;"><%= s.label %></span>
+      <div style="display:flex;align-items:center;gap:5px;">
+        <div style="width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,.5);"></div>
+        <span style="font-size:.72rem;color:#4ade80;font-weight:600;">Operational</span>
+      </div>
+    </div>
+    <% }) %>
+
+    <div style="margin-top:auto;padding-top:.75rem;border-top:1px solid rgba(255,255,255,.05);">
+      <div style="font-size:.7rem;color:#334155;">Server time</div>
+      <div id="sk-server-time" style="font-size:.8rem;color:#94A3B8;font-family:'JetBrains Mono',monospace;font-weight:500;">—</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  // CPU chart history
+  const cpuHistory = new Array(20).fill(0);
+
+  function updateCpuChart() {
+    const chart = document.getElementById('sk-cpu-chart');
+    if (!chart) return;
+    chart.innerHTML = '';
+    const max = Math.max(...cpuHistory, 1);
+    cpuHistory.forEach(v => {
+      const bar = document.createElement('div');
+      bar.className = 'sk-chart-bar';
+      bar.style.height = Math.max((v / max) * 100, 4) + '%';
+      const pct = v / 100;
+      // color: green→yellow→red
+      if (pct < 0.5) bar.style.background = 'linear-gradient(180deg,#22c55e,#16a34a)';
+      else if (pct < 0.8) bar.style.background = 'linear-gradient(180deg,#f59e0b,#d97706)';
+      else bar.style.background = 'linear-gradient(180deg,#ef4444,#dc2626)';
+      chart.appendChild(bar);
+    });
+  }
+
+  // Hook into existing system stats polling if available
+  function syncFromExistingData() {
+    // CPU
+    const cpuEl = document.getElementById('cpu-usage');
+    if (cpuEl) {
+      const v = parseFloat(cpuEl.textContent) || 0;
+      document.getElementById('sk-cpu').textContent = v;
+      document.getElementById('sk-cpu-bar').style.width = v + '%';
+      cpuHistory.push(v); cpuHistory.shift();
+      updateCpuChart();
+    }
+    // Memory
+    const memUsed = document.getElementById('memory-usage');
+    const memTotal = document.getElementById('memory-total');
+    if (memUsed) document.getElementById('sk-mem-used').textContent = memUsed.textContent.replace(' / 0 MB','').replace(' MB','') + ' MB';
+    if (memTotal) {
+      const t = memTotal.textContent.replace('/ ','').trim();
+      document.getElementById('sk-mem-total').textContent = t;
+      // Calculate % for bar
+      const u = parseFloat(memUsed?.textContent) || 0;
+      const to = parseFloat(t) || 1;
+      document.getElementById('sk-mem-bar').style.width = Math.min(u/to*100, 100) + '%';
+    }
+    // Network
+    const upEl = document.getElementById('upload-speed');
+    const dnEl = document.getElementById('download-speed');
+    if (upEl) document.getElementById('sk-upload').textContent = upEl.textContent;
+    if (dnEl) document.getElementById('sk-download').textContent = dnEl.textContent;
+
+    // Server time
+    const timeEl = document.getElementById('serverTimeDisplay');
+    if (timeEl) document.getElementById('sk-server-time').textContent = timeEl.textContent.replace('Server time:','').trim();
+  }
+
+  // Server clock fallback
+  function tickClock() {
+    const el = document.getElementById('sk-server-time');
+    if (el && el.textContent === '—') {
+      el.textContent = new Date().toLocaleTimeString();
+    }
+  }
+
+  updateCpuChart();
+  setInterval(syncFromExistingData, 2000);
+  setInterval(tickClock, 1000);
+  syncFromExistingData();
+})();
+</script>

@@ -632,20 +632,10 @@ app.post('/setup-account', upload.single('avatar'), [
     });
   }
 });
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
   if (req.session.userId) {
     return res.redirect('/dashboard');
   }
-  
-  try {
-    const usersExist = await checkIfUsersExist();
-    if (!usersExist) {
-      return res.redirect('/setup');
-    }
-  } catch (error) {
-    console.error('Error checking users for landing:', error);
-  }
-
   res.render('landing');
 });
 app.get('/welcome', isAuthenticated, async (req, res) => {
